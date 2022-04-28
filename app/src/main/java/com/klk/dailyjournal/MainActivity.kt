@@ -30,8 +30,10 @@ class MainActivity : AppCompatActivity() {
         setupDataObserver()
     }
 
+    //for now we also reset the data !! (as long as we work with test data, to not add the same objects with every refresh)
     private fun insertTestData() {
         val repo = NoteRepository.get()
+        repo.clear()
         repo.insert(NoteEntity(
             0, "Monday", "April 22nd", "face_temporary.png",
             "nice weather",
