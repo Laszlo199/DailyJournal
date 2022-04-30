@@ -1,3 +1,8 @@
 <resources>
-    <string name="app_name">DailyJournal</string>
+    <string name="app_name">Daily Journal</string>
+    <string name="feeling_today">How are you feeling today?</string>
+    <string name="make_note">Make a journal note</string>
+    <string name="done">Done</string>
+    <string name="read_more">Read more</string>
+
 </resources>
