@@ -12,5 +12,8 @@
     <string name="add_photo">add photo</string>
     <string name="add_location">add location</string>
     <string name="done_btn">done_btn</string>
+    <string name="grateful_edit">Insert what are you grateful for today</string>
+    <string name="best_part_edit">Insert what whas your best part of the day</string>
+    <string name="own_note_edit">Insert your own note</string>
 
 </resources>

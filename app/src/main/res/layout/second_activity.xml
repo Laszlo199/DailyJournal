@@ -57,6 +57,7 @@
             android:autofillHints=""
             android:ems="10"
             android:gravity="start|top"
+            android:hint="@string/grateful_edit"
             android:inputType="textMultiLine" />
     </LinearLayout>
 
@@ -83,6 +84,7 @@
             android:autofillHints=""
             android:ems="10"
             android:gravity="start|top"
+            android:hint="@string/best_part_edit"
             android:inputType="textMultiLine" />
     </LinearLayout>
 
@@ -109,6 +111,7 @@
             android:autofillHints=""
             android:ems="10"
             android:gravity="start|top"
+            android:hint="@string/own_note_edit"
             android:inputType="textMultiLine" />
     </LinearLayout>
 
@@ -129,7 +132,7 @@
 
             <ImageView
                 android:id="@+id/imageView3"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 app:srcCompat="@drawable/ic_baseline_photo_camera_24" />
@@ -141,7 +144,7 @@
             android:id="@+id/textView6"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="28dp"
+            android:layout_marginStart="28dp"
             android:layout_marginTop="3dp"
             android:text="@string/add_photo"
             android:textSize="15sp" />
@@ -150,7 +153,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="28dp"
+        android:layout_marginStart="28dp"
         android:layout_marginTop="20dp"
         android:orientation="horizontal">
 
@@ -162,10 +165,10 @@
 
         <TextView
             android:id="@+id/textView7"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
-            android:layout_marginLeft="4dp"
+            android:layout_marginStart="4dp"
             android:layout_weight="1"
             android:text="@string/add_location"
             android:textSize="15sp" />
@@ -183,7 +186,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|center"
             android:layout_weight="2"
-            android:text="@string/done" />
+            android:text="@string/done"
+            android:layout_width="0dp" />
     </LinearLayout>
 
 
