@@ -52,11 +52,4 @@ class NoteRepository private constructor(private val context: Context) {
             throw IllegalStateException("Notes repo not initialized")
         }
     }
-
-
-
-
-
-
-
 }
