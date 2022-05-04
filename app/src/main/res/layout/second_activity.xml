@@ -105,7 +105,7 @@
             android:textStyle="bold" />
 
         <EditText
-            android:id="@+id/editTextTextMultiLine"
+            android:id="@+id/my_note_edit"
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:autofillHints=""
@@ -123,18 +123,19 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="29dp"
+            android:layout_marginLeft="50dp"
             android:layout_marginTop="40dp"
-            android:layout_marginRight="29dp"
+            android:layout_marginRight="50dp"
             android:background="#989898"
             android:orientation="horizontal">
 
 
             <ImageView
-                android:id="@+id/imageView3"
+                android:id="@+id/take_photo_img"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="100dp"
                 android:layout_weight="1"
+                android:onClick="onTakeByFile"
                 app:srcCompat="@drawable/ic_baseline_photo_camera_24" />
 
 
@@ -144,7 +145,7 @@
             android:id="@+id/textView6"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="28dp"
+            android:layout_marginStart="50dp"
             android:layout_marginTop="3dp"
             android:text="@string/add_photo"
             android:textSize="15sp" />

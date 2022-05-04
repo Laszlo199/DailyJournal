@@ -1,6 +1,7 @@
 package com.klk.dailyjournal
 
 import android.content.Context
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -12,13 +13,17 @@ import android.widget.ListAdapter
 import android.widget.TextView
 import com.klk.dailyjournal.data.NoteEntity
 import com.klk.dailyjournal.data.NoteRepository
-import java.util.*
 import androidx.lifecycle.Observer
-import com.klk.dailyjournal.R
+import com.klk.dailyjournal.entities.Feeling
 import kotlinx.android.synthetic.main.activity_main.*
 
 
 class MainActivity : AppCompatActivity() {
+
+    val feeling: Feeling = Feeling.OK;
+
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,6 +33,15 @@ class MainActivity : AppCompatActivity() {
         insertTestData()
 
         setupDataObserver()
+    }
+
+    //TODO handle click on Make a journal note button
+     fun makeJournalNote(view: View){
+
+        //pass info to the second intent
+        val intent = Intent(this, SecondActivity::class.java)
+        intent.putExtra("feeling_passed", feeling.name)
+        startActivity(intent)
     }
 
     //for now we also reset the data !! (as long as we work with test data, to not add the same objects with every refresh)

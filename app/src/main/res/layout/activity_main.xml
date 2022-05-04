@@ -104,11 +104,12 @@
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_margin="10dp"
                 android:backgroundTint="@color/blue_light"
-                android:textColor="@color/blue_darker"
+                android:onClick="makeJournalNote"
                 android:text="@string/make_note"
-                android:textSize="10dp"
-                android:layout_margin="10dp"/>
+                android:textColor="@color/blue_darker"
+                android:textSize="10dp" />
 
             <Button
                 android:layout_width="wrap_content"
