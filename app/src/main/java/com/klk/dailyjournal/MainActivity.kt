@@ -22,9 +22,6 @@ class MainActivity : AppCompatActivity() {
 
     val feeling: Feeling = Feeling.OK;
 
-
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -35,7 +32,6 @@ class MainActivity : AppCompatActivity() {
         setupDataObserver()
     }
 
-    //TODO handle click on Make a journal note button
      fun makeJournalNote(view: View){
 
         //pass info to the second intent
@@ -77,7 +73,6 @@ class MainActivity : AppCompatActivity() {
         }
         repo.getAll().observe(this, getAllObserver)
 
-        //lvNames.onItemClickListener = AdapterView.OnItemClickListener { parent, view, pos, id -> onClickPerson(parent, pos)}
     }
 
     internal class NotesAdapter(context: Context, private val notes: List<NoteEntity>)
