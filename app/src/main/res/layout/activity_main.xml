@@ -81,7 +81,6 @@
                 android:layout_height="60dp"
                 android:scaleType="fitCenter"
                 android:background="@color/white"
-                android:backgroundTint="@color/black"
                 android:src="@drawable/mood_icon3" />
             <ImageButton
                 android:id="@+id/imgFace4"
