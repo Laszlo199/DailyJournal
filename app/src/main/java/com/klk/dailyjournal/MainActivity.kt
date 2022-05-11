@@ -2,19 +2,19 @@ package com.klk.dailyjournal
 
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
-import android.widget.ImageView
-import android.widget.ListAdapter
-import android.widget.TextView
+import android.widget.*
+import androidx.annotation.RequiresApi
 import com.klk.dailyjournal.data.NoteEntity
 import com.klk.dailyjournal.data.NoteRepository
 import androidx.lifecycle.Observer
 import com.klk.dailyjournal.entities.Feeling
+import com.klk.dailyjournal.service.MoodImageStore
 import kotlinx.android.synthetic.main.activity_main.*
 
 
@@ -22,9 +22,30 @@ class MainActivity : AppCompatActivity() {
 
     val feeling: Feeling = Feeling.OK;
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        val imageButton1 = findViewById<ImageButton>(R.id.imgFace1)
+        val imageButton2 = findViewById<ImageButton>(R.id.imgFace2)
+        val imageButton3 = findViewById<ImageButton>(R.id.imgFace3)
+        val imageButton4 = findViewById<ImageButton>(R.id.imgFace4)
+        val imageButton5 = findViewById<ImageButton>(R.id.imgFace5)
+        imageButton1.setOnClickListener {
+            MoodImageStore.add(1)
+        }
+        imageButton2.setOnClickListener {
+            MoodImageStore.add(2)
+        }
+        imageButton3.setOnClickListener {
+            MoodImageStore.add(3)
+        }
+        imageButton4.setOnClickListener {
+            MoodImageStore.add(4)
+        }
+        imageButton5.setOnClickListener {
+            MoodImageStore.add(5)
+        }
 
         NoteRepository.initialize(this)
         insertTestData()

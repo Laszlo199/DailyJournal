@@ -3,6 +3,9 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/GitHub/4semester/DailyJournal/app/src/main/res/drawable/ic_launcher_background.xml" value="0.232" />
+        <entry key="..\:/GitHub/4semester/DailyJournal/app/src/main/res/layout/activity_main.xml" value="0.3333333333333333" />
+        <entry key="..\:/GitHub/4semester/DailyJournal/app/src/main/res/layout/second_activity.xml" value="0.18931159420289856" />
         <entry key="..\:/Users/Kuba/AndroidStudioProjects/DailyJournal/app/src/main/res/layout/activity_main.xml" value="0.358695652173913" />
         <entry key="..\:/Users/Kuba/AndroidStudioProjects/DailyJournal/app/src/main/res/layout/notes_card.xml" value="0.358695652173913" />
         <entry key="..\:/Users/Kuba/AndroidStudioProjects/DailyJournal/app/src/main/res/layout/second_activity.xml" value="0.358695652173913" />
