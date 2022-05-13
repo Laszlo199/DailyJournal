@@ -1,23 +1,22 @@
 package com.klk.dailyjournal
 
 import android.Manifest
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Address
 import android.location.Geocoder
 import android.location.Location
-import android.location.LocationListener
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import androidx.core.app.ActivityCompat
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
-
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import com.klk.dailyjournal.databinding.ActivityMapsBinding
 import kotlinx.android.synthetic.main.activity_maps.*
@@ -31,6 +30,9 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var lastLocation: Location
     private lateinit var fusedLocationClient: FusedLocationProviderClient
 
+    var latLngToSave: LatLng? = null
+    var addressToSave: Address? = null
+
     companion object {
         private const val LOCATION_REQUEST_CODE = 1
     }
@@ -41,7 +43,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         binding = ActivityMapsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         val mapFragment = supportFragmentManager
             .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
@@ -83,6 +84,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         val markerOptions = MarkerOptions().position(currentLatLng)
         markerOptions.title("$currentLatLng")
         mMap.addMarker(markerOptions)
+        latLngToSave = currentLatLng
     }
 
     private fun setAddress(currentLatLng: LatLng) {
@@ -105,7 +107,17 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
             if(address.getAddressLine(1) != null) {
                 addressTv.setText(addressTv.getText().toString() + address.getAddressLine(1))
             }
+
+            addressToSave = address
         }
+    }
+
+    fun saveLocation(view: View) {
+        val data = Intent()
+        if(latLngToSave!=null) data.putExtra("latlng", latLngToSave)
+        if(addressToSave!=null) data.putExtra("address", addressToSave)
+        setResult(RESULT_OK, data)
+        finish()
     }
 
 }

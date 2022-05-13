@@ -16,5 +16,5 @@
     <string name="best_part_edit">Insert what whas your best part of the day</string>
     <string name="own_note_edit">Insert your own note</string>
     <string name="title_activity_maps">MapsActivity</string>
-
+    <string name="save">Save</string>
 </resources>

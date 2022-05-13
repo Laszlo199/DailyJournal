@@ -6,6 +6,7 @@ import android.app.ActivityManager
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Color
+import android.location.Address
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -20,6 +21,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.FileProvider
+import com.google.android.gms.maps.model.LatLng
 import com.klk.dailyjournal.data.NoteEntity
 import com.klk.dailyjournal.data.NoteRepository
 import com.klk.dailyjournal.entities.Feeling
@@ -35,7 +37,9 @@ class SecondActivity: AppCompatActivity(){
 
     var photo: File? = null
     var pathPhoto: String? = null
-    var  mood: Feeling?= null
+    var mood: Feeling?= null
+    var location: LatLng? = null
+    var address: Address? = null
     val repo = NoteRepository.get()
 
 
@@ -49,11 +53,10 @@ class SecondActivity: AppCompatActivity(){
         val todayEdit = findViewById<TextView>(R.id.today_edit)
         val myNoteEdit = findViewById<TextView>(R.id.my_note_edit)
 
-        val path  = if (pathPhoto==null)  photo?.path else pathPhoto
+        val path = if (pathPhoto==null) photo?.path else pathPhoto
         repo.insert(NoteEntity(
             0,
-            SimpleDateFormat("EEEE", Locale.ENGLISH).
-            format(getDate()),
+            SimpleDateFormat("EEEE", Locale.ENGLISH).format(getDate()),
             "${getDayAsString()} ${getMonthName()}",
             "face_temporary.png",
             gratefulnessEdit.text.toString(),
