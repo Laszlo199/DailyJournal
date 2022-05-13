@@ -14,5 +14,6 @@ class NoteEntity (
     var bestPartOfDay: String?,
     var note: String?,
     var image: String?,
-    var location: String?){
+    var locationLatLng: String?,
+    var address: String?){
 }

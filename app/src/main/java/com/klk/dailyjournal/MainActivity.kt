@@ -49,19 +49,19 @@ class MainActivity : AppCompatActivity() {
             "nice weather",
             "nutella for breakfast",
             "I met my friends today, we watch some movies, then we went to have fun. long long long long lllloooong",
-            null, null))
+            null, null, "Skolegade 209, Esbjerg"))
         repo.insert(NoteEntity(
             0, "Tuesday", "April 21st", "face_temporary.png",
             null,
             null,
             "I met my friends today, we watch some movies, then we went to have fun",
-            null, null))
+            null, null, null))
         repo.insert(NoteEntity(
             0, "Wednesday", "April 20th", "face_temporary.png",
             "nice weather",
             "nutella for breakfast",
             "wow wow",
-            null, null))
+            null, null, null))
     }
 
 
@@ -92,11 +92,13 @@ class MainActivity : AppCompatActivity() {
             val dateView = resView.findViewById<TextView>(R.id.tvDate)
             val textView = resView.findViewById<TextView>(R.id.tvNote)
             val moodView = resView.findViewById<ImageView>(R.id.imgMoodIcon)
+            val addressView = resView.findViewById<TextView>(R.id.tvAddress)
 
             val date = n.dayOfWeek + ", " + n.date
             dateView.text = date
             textView.text = n.note
             moodView.setImageResource(R.drawable.face_temporary)
+            addressView.text = n.address
 
             return resView
         }

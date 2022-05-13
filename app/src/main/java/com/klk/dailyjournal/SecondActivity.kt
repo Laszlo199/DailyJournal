@@ -38,8 +38,8 @@ class SecondActivity: AppCompatActivity(){
     var photo: File? = null
     var pathPhoto: String? = null
     var mood: Feeling?= null
-    var location: LatLng? = null
-    var address: Address? = null
+    var location: String? = null
+    var address: String? = null
     val repo = NoteRepository.get()
 
 
@@ -62,7 +62,9 @@ class SecondActivity: AppCompatActivity(){
             gratefulnessEdit.text.toString(),
             todayEdit.text.toString(),
             myNoteEdit.text.toString(),
-            path, null))
+            path,
+            location,
+            address))
 
             //save
     }
@@ -232,7 +234,16 @@ class SecondActivity: AppCompatActivity(){
 
     fun goToLocationView(view: View){
         val intent = Intent(this, MapsActivity::class.java)
-        startActivity(intent)
+        resultLauncher.launch(intent)
+    }
+
+    private var resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            location = result.data?.getStringExtra("latlng")
+            address = result.data?.getStringExtra("address")
+
+            locationAddressTv.text = address
+        }
     }
 
 }

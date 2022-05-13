@@ -114,9 +114,24 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
     fun saveLocation(view: View) {
         val data = Intent()
-        if(latLngToSave!=null) data.putExtra("latlng", latLngToSave)
-        if(addressToSave!=null) data.putExtra("address", addressToSave)
+
+        var address = ""
+        if(addressToSave!=null) {
+            if(addressToSave!!.getAddressLine(0) != null) {
+                address = addressToSave!!.getAddressLine(0)
+            }
+            if(addressToSave!!.getAddressLine(1) != null) {
+                address += addressToSave!!.getAddressLine(1)
+            }
+            data.putExtra("address", address)
+        }
+        if(latLngToSave!=null) data.putExtra("latlng", latLngToSave.toString())
+
         setResult(RESULT_OK, data)
+        finish()
+    }
+
+    fun cancel(view: View) {
         finish()
     }
 

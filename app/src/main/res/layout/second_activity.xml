@@ -157,7 +157,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="28dp"
+        android:layout_marginHorizontal="12dp"
         android:layout_marginTop="20dp"
         android:orientation="horizontal">
 
@@ -168,14 +168,14 @@
             app:srcCompat="@drawable/ic_baseline_add_location_24" />
 
         <TextView
-            android:id="@+id/textView7"
-            android:layout_width="0dp"
+            android:id="@+id/locationAddressTv"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
             android:layout_marginStart="4dp"
             android:layout_weight="1"
             android:text="@string/add_location"
-            android:textSize="15sp"
+            android:textSize="18dp"
             android:onClick="goToLocationView"/>
     </LinearLayout>
 
