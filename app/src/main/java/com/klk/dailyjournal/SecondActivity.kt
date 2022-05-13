@@ -2,6 +2,7 @@ package com.klk.dailyjournal
 
 import android.Manifest
 import android.app.Activity
+import android.app.ActivityManager
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Color
@@ -22,6 +23,7 @@ import androidx.core.content.FileProvider
 import com.klk.dailyjournal.data.NoteEntity
 import com.klk.dailyjournal.data.NoteRepository
 import com.klk.dailyjournal.entities.Feeling
+import kotlinx.android.synthetic.main.second_activity.*
 import java.io.File
 import java.io.FileOutputStream
 import java.text.SimpleDateFormat
@@ -42,6 +44,7 @@ class SecondActivity: AppCompatActivity(){
 
 
     fun saveNote(view: View){
+
         val gratefulnessEdit = findViewById<TextView>(R.id.gratefulness_edit)
         val todayEdit = findViewById<TextView>(R.id.today_edit)
         val myNoteEdit = findViewById<TextView>(R.id.my_note_edit)
@@ -222,6 +225,11 @@ class SecondActivity: AppCompatActivity(){
         if (resultCode == RESULT_CANCELED)
             Toast.makeText(this, "Canceled...", Toast.LENGTH_LONG).show()
         else Toast.makeText(this, "Picture NOT taken - unknown error...", Toast.LENGTH_LONG).show()
+    }
+
+    fun goToLocationView(view: View){
+        val intent = Intent(this, MapsActivity::class.java)
+        startActivity(intent)
     }
 
 }
