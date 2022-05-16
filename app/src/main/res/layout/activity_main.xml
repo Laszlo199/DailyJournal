@@ -66,7 +66,7 @@
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:scaleType="fitCenter"
-                android:background="@drawable/custum_input"
+                android:background="@drawable/custom_input"
                 android:paddingHorizontal="4dp"
                 android:src="@drawable/mood_icon1" />
             <ImageButton
@@ -74,7 +74,7 @@
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:scaleType="fitCenter"
-                android:background="@drawable/custum_input"
+                android:background="@drawable/custom_input"
                 android:paddingHorizontal="4dp"
                 android:src="@drawable/mood_icon2" />
             <ImageButton
@@ -82,7 +82,7 @@
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:scaleType="fitCenter"
-                android:background="@drawable/custum_input"
+                android:background="@drawable/custom_input"
                 android:paddingHorizontal="4dp"
                 android:src="@drawable/mood_icon3" />
             <ImageButton
@@ -91,7 +91,7 @@
                 android:layout_height="60dp"
                 android:scaleType="fitCenter"
                 android:paddingHorizontal="4dp"
-                android:background="@drawable/custum_input"
+                android:background="@drawable/custom_input"
                 android:src="@drawable/mood_icon4" />
             <ImageButton
                 android:id="@+id/imgFace5"
@@ -99,7 +99,7 @@
                 android:paddingHorizontal="4dp"
                 android:layout_height="60dp"
                 android:scaleType="fitCenter"
-                android:background="@drawable/custum_input"
+                android:background="@drawable/custom_input"
                 android:src="@drawable/mood_icon5" />
         </LinearLayout>
 
