@@ -21,6 +21,9 @@ import kotlinx.android.synthetic.main.activity_main.*
 class MainActivity : AppCompatActivity() {
 
     val feeling: Feeling = Feeling.OK;
+    val image1: String = "1";
+    val image2: String = "3";
+    val image3: String = "5";
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -66,19 +69,19 @@ class MainActivity : AppCompatActivity() {
         val repo = NoteRepository.get()
         repo.clear()
         repo.insert(NoteEntity(
-            0, "Monday", "April 22nd", "face_temporary.png",
+            0, "Monday", "April 22nd", "5",
             "nice weather",
             "nutella for breakfast",
             "I met my friends today, we watch some movies, then we went to have fun. long long long long lllloooong",
             null, null))
         repo.insert(NoteEntity(
-            0, "Tuesday", "April 21st", "face_temporary.png",
+            0, "Tuesday", "April 21st", "3",
             null,
             null,
             "I met my friends today, we watch some movies, then we went to have fun",
             null, null))
         repo.insert(NoteEntity(
-            0, "Wednesday", "April 20th", "face_temporary.png",
+            0, "Wednesday", "April 20th", "2",
             "nice weather",
             "nutella for breakfast",
             "wow wow",
@@ -117,9 +120,17 @@ class MainActivity : AppCompatActivity() {
             val date = n.dayOfWeek + ", " + n.date
             dateView.text = date
             textView.text = n.note
-            moodView.setImageResource(R.drawable.face_temporary)
+            moodView.setImageResource(GetImageId(n.mood.toInt()))
 
             return resView
+        }
+
+        fun GetImageId(eyes: Int): Int {
+            if (eyes == 1) return R.drawable.mood_icon1
+            if (eyes == 2) return R.drawable.mood_icon2
+            if (eyes == 3) return R.drawable.mood_icon3
+            if (eyes == 4) return R.drawable.mood_icon4
+            return R.drawable.mood_icon5
         }
     }
 }

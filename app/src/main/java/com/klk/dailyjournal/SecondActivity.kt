@@ -54,11 +54,11 @@ class SecondActivity: AppCompatActivity(){
             SimpleDateFormat("EEEE", Locale.ENGLISH).
             format(getDate()),
             "${getDayAsString()} ${getMonthName()}",
-            "face_temporary.png",
+            MoodImageStore.getImageId().toString(),
             gratefulnessEdit.text.toString(),
             todayEdit.text.toString(),
             myNoteEdit.text.toString(),
-            path, null))
+            MoodImageStore.getImageId().toString(), null))
 
             //save
     }
