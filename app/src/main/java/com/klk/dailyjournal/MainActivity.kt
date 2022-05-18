@@ -22,9 +22,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 class MainActivity : AppCompatActivity() {
 
     val feeling: Feeling = Feeling.OK;
-    val image1: String = "1";
-    val image2: String = "3";
-    val image3: String = "5";
+
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -52,7 +50,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         NoteRepository.initialize(this)
-        insertTestData()
+        //insertTestData()
 
         setupDataObserver()
     }
@@ -122,7 +120,7 @@ class MainActivity : AppCompatActivity() {
             val date = n.dayOfWeek + ", " + n.date
             dateView.text = date
             textView.text = n.note
-            oodView.setImageResource(GetImageId(n.mood.toInt()))
+            moodView.setImageResource(GetImageId(n.mood.toInt()))
             addressView.text = n.address
 
 

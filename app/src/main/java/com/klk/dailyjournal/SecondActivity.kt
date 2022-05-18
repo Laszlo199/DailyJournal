@@ -2,11 +2,9 @@ package com.klk.dailyjournal
 
 import android.Manifest
 import android.app.Activity
-import android.app.ActivityManager
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Color
-import android.location.Address
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -17,19 +15,16 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
-import android.widget.ToggleButton
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.FileProvider
-import com.google.android.gms.maps.model.LatLng
 import com.klk.dailyjournal.data.NoteEntity
 import com.klk.dailyjournal.data.NoteRepository
 import com.klk.dailyjournal.entities.Feeling
 import kotlinx.android.synthetic.main.second_activity.*
 import com.klk.dailyjournal.service.MoodImageStore
 import java.io.File
-import java.io.FileOutputStream
 import java.text.SimpleDateFormat
 import java.util.*
 
