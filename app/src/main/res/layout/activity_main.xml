@@ -61,36 +61,46 @@
             android:orientation="horizontal"
             android:gravity="center_horizontal">
 
-            <ImageView
+            <ImageButton
                 android:id="@+id/imgFace1"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:scaleType="fitCenter"
-                android:src="@drawable/face_temporary" />
-            <ImageView
+                android:background="@drawable/custom_input"
+                android:paddingHorizontal="4dp"
+                android:src="@drawable/mood_icon1" />
+            <ImageButton
                 android:id="@+id/imgFace2"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:scaleType="fitCenter"
-                android:src="@drawable/face_temporary" />
-            <ImageView
+                android:background="@drawable/custom_input"
+                android:paddingHorizontal="4dp"
+                android:src="@drawable/mood_icon2" />
+            <ImageButton
                 android:id="@+id/imgFace3"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:scaleType="fitCenter"
-                android:src="@drawable/face_temporary" />
-            <ImageView
+                android:background="@drawable/custom_input"
+                android:paddingHorizontal="4dp"
+                android:src="@drawable/mood_icon3" />
+            <ImageButton
                 android:id="@+id/imgFace4"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:scaleType="fitCenter"
-                android:src="@drawable/face_temporary" />
-            <ImageView
+                android:paddingHorizontal="4dp"
+                android:background="@drawable/custom_input"
+                android:src="@drawable/mood_icon4" />
+            <ImageButton
                 android:id="@+id/imgFace5"
                 android:layout_width="60dp"
+                android:paddingHorizontal="4dp"
                 android:layout_height="60dp"
                 android:scaleType="fitCenter"
-                android:src="@drawable/face_temporary" />
+                android:background="@drawable/custom_input"
+                android:src="@drawable/mood_icon5" />
         </LinearLayout>
 
         <!--BUTTONS-->

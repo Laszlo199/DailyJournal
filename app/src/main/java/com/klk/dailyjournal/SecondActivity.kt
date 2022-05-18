@@ -17,6 +17,7 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import android.widget.ToggleButton
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -26,6 +27,7 @@ import com.klk.dailyjournal.data.NoteEntity
 import com.klk.dailyjournal.data.NoteRepository
 import com.klk.dailyjournal.entities.Feeling
 import kotlinx.android.synthetic.main.second_activity.*
+import com.klk.dailyjournal.service.MoodImageStore
 import java.io.File
 import java.io.FileOutputStream
 import java.text.SimpleDateFormat
@@ -58,7 +60,7 @@ class SecondActivity: AppCompatActivity(){
             0,
             SimpleDateFormat("EEEE", Locale.ENGLISH).format(getDate()),
             "${getDayAsString()} ${getMonthName()}",
-            "face_temporary.png",
+            MoodImageStore.getImageId().toString(),
             gratefulnessEdit.text.toString(),
             todayEdit.text.toString(),
             myNoteEdit.text.toString(),
@@ -143,7 +145,18 @@ class SecondActivity: AppCompatActivity(){
         val dateT = findViewById<TextView>(R.id.date)
         dateT.text = date
 
+        val imageView = findViewById<ImageView>(R.id.imgMood)
+        imageView.setImageResource(GetImageId(MoodImageStore.getImageId()))
+
         checkPermissions()
+    }
+
+    fun GetImageId(eyes: Int): Int {
+        if (eyes == 1) return R.drawable.mood_icon1
+        if (eyes == 2) return R.drawable.mood_icon2
+        if (eyes == 3) return R.drawable.mood_icon3
+        if (eyes == 4) return R.drawable.mood_icon4
+        return R.drawable.mood_icon5
     }
 
     private fun getEnum(name: String): Feeling{
