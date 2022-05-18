@@ -11,6 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.annotation.RequiresApi
+import androidx.core.content.ContextCompat
 import com.klk.dailyjournal.data.NoteEntity
 import com.klk.dailyjournal.data.NoteRepository
 import androidx.lifecycle.Observer
@@ -28,34 +29,40 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        val imageButton1 = findViewById<ImageButton>(R.id.imgFace1)
-        val imageButton2 = findViewById<ImageButton>(R.id.imgFace2)
-        val imageButton3 = findViewById<ImageButton>(R.id.imgFace3)
-        val imageButton4 = findViewById<ImageButton>(R.id.imgFace4)
-        val imageButton5 = findViewById<ImageButton>(R.id.imgFace5)
-        imageButton1.setOnClickListener {
+
+        imgFace1.setOnClickListener {
             MoodImageStore.add(1)
+            setBorderForImg(1)
         }
-        imageButton2.setOnClickListener {
+        imgFace2.setOnClickListener {
             MoodImageStore.add(2)
+            setBorderForImg(2)
         }
-        imageButton3.setOnClickListener {
+        imgFace3.setOnClickListener {
             MoodImageStore.add(3)
+            setBorderForImg(3)
         }
-        imageButton4.setOnClickListener {
+        imgFace4.setOnClickListener {
             MoodImageStore.add(4)
+            setBorderForImg(4)
         }
-        imageButton5.setOnClickListener {
+        imgFace5.setOnClickListener {
             MoodImageStore.add(5)
+            setBorderForImg(5)
         }
 
         NoteRepository.initialize(this)
         //insertTestData()
-
         setupDataObserver()
+
+        doneBtn.setOnClickListener { doneBtnClicked() }
     }
 
-     fun makeJournalNote(view: View){
+    private fun doneBtnClicked() {
+
+    }
+
+    fun makeJournalNote(view: View){
 
         //pass info to the second intent
         val intent = Intent(this, SecondActivity::class.java)
@@ -87,6 +94,24 @@ class MainActivity : AppCompatActivity() {
             null, null, null))
     }
 
+
+    private fun setBorderForImg(img: Number) {
+        val color = ContextCompat.getColor(applicationContext,
+            R.color.blue_darker)
+
+        imgFace1.setBackgroundColor(Color.TRANSPARENT)
+        imgFace2.setBackgroundColor(Color.TRANSPARENT)
+        imgFace3.setBackgroundColor(Color.TRANSPARENT)
+        imgFace4.setBackgroundColor(Color.TRANSPARENT)
+        imgFace5.setBackgroundColor(Color.TRANSPARENT)
+        when (img) {
+            1 -> imgFace1.setBackgroundColor(color)
+            2 -> imgFace2.setBackgroundColor(color)
+            3 -> imgFace3.setBackgroundColor(color)
+            4 -> imgFace4.setBackgroundColor(color)
+            5 -> imgFace5.setBackgroundColor(color)
+        }
+    }
 
     private fun setupDataObserver() {
         val repo = NoteRepository.get()
@@ -134,5 +159,6 @@ class MainActivity : AppCompatActivity() {
             if (eyes == 4) return R.drawable.mood_icon4
             return R.drawable.mood_icon5
         }
+
     }
 }
