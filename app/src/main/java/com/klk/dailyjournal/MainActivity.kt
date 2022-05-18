@@ -4,26 +4,31 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
+import android.widget.ArrayAdapter
+import android.widget.ImageView
+import android.widget.ListAdapter
+import android.widget.TextView
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.Observer
 import com.klk.dailyjournal.data.NoteEntity
 import com.klk.dailyjournal.data.NoteRepository
-import androidx.lifecycle.Observer
 import com.klk.dailyjournal.entities.Feeling
 import com.klk.dailyjournal.service.MoodImageStore
 import kotlinx.android.synthetic.main.activity_main.*
+import java.time.LocalDate
+import java.time.format.TextStyle
+import java.util.*
 
 
 class MainActivity : AppCompatActivity() {
 
-    val feeling: Feeling = Feeling.OK;
-
+    val feeling: Feeling = Feeling.OK
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -56,10 +61,35 @@ class MainActivity : AppCompatActivity() {
         setupDataObserver()
 
         doneBtn.setOnClickListener { doneBtnClicked() }
+        buttonsContainer.visibility = View.INVISIBLE
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun doneBtnClicked() {
+        val repo = NoteRepository.get()
 
+        val dayOfWeek = LocalDate.now().getDayOfWeek().getDisplayName(TextStyle.FULL, Locale.ENGLISH)
+        val month = LocalDate.now().month.getDisplayName(TextStyle.FULL, Locale.ENGLISH)
+        val date = LocalDate.now().dayOfMonth
+        var dateToSave = "$month $date"
+        if(date==1 || date==21 || date==31) dateToSave += "st"
+        else if(date==2 || date==22) dateToSave += "nd"
+        else if(date==3 || date==23) dateToSave += "rd"
+        else dateToSave += "th"
+
+        repo.insert(NoteEntity(0,
+            dayOfWeek,
+            dateToSave,
+            MoodImageStore.getImageId().toString(),
+            null,
+            null,
+            null,
+            null,
+            null,
+            null))
+
+        setBorderForImg(0)
+        buttonsContainer.visibility = View.INVISIBLE
     }
 
     fun makeJournalNote(view: View){
@@ -96,6 +126,8 @@ class MainActivity : AppCompatActivity() {
 
 
     private fun setBorderForImg(img: Number) {
+        buttonsContainer.visibility = View.VISIBLE
+
         val color = ContextCompat.getColor(applicationContext,
             R.color.blue_darker)
 
