@@ -49,7 +49,7 @@ class EditActivity : AppCompatActivity() {
                 day,
                 date,
                 moodID,
-                editGrateFull.text.toString(),
+                editGrateFul.text.toString(),
                 editBest.text.toString(),
                 editNote.text.toString(),
                 image,
