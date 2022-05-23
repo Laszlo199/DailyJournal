@@ -5,13 +5,8 @@ import android.content.Intent
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.widget.ArrayAdapter
-import android.widget.ImageView
-import android.widget.ListAdapter
-import android.widget.TextView
+import android.view.*
+import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -19,16 +14,20 @@ import androidx.lifecycle.Observer
 import com.klk.dailyjournal.data.NoteEntity
 import com.klk.dailyjournal.data.NoteRepository
 import com.klk.dailyjournal.entities.Feeling
+import com.klk.dailyjournal.service.EditIdStore
 import com.klk.dailyjournal.service.MoodImageStore
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.notes_card.*
 import java.time.LocalDate
 import java.time.format.TextStyle
 import java.util.*
+import com.klk.dailyjournal.MainActivity as MainActivity
 
 
 class MainActivity : AppCompatActivity() {
 
     val feeling: Feeling = Feeling.OK
+
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -159,6 +158,7 @@ class MainActivity : AppCompatActivity() {
         : ArrayAdapter<NoteEntity>(context, 0, notes)
     {
 
+        @RequiresApi(Build.VERSION_CODES.O)
         override fun getView(position: Int, v: View?, parent: ViewGroup): View {
             var v1: View? = v
             if (v1 == null) {
@@ -173,6 +173,9 @@ class MainActivity : AppCompatActivity() {
             val textView = resView.findViewById<TextView>(R.id.tvNote)
             val moodView = resView.findViewById<ImageView>(R.id.imgMoodIcon)
             val addressView = resView.findViewById<TextView>(R.id.tvAddress)
+            val btnReadMore = resView.findViewById<Button>(R.id.btnReadMore)
+            val id = n.id
+
 
             val date = n.dayOfWeek + ", " + n.date
             dateView.text = date
@@ -181,8 +184,31 @@ class MainActivity : AppCompatActivity() {
             addressView.text = n.address
 
 
+
+            btnReadMore.setOnClickListener{
+                setEditId(id)
+                var i = Intent(context, EditActivity::class.java)
+                i.putExtra("note", n.note)
+                i.putExtra("best", n.bestPartOfDay)
+                i.putExtra("grate", n.gratefulFor)
+                i.putExtra("date", n.date)
+                i.putExtra("address", n.address)
+                i.putExtra("mood", n.mood)
+
+                context.startActivity(i)
+            }
+
+
+
+
+
             return resView
         }
+        @RequiresApi(Build.VERSION_CODES.O)
+        fun setEditId(id: Int) {
+            EditIdStore.add(id)
+        }
+
 
         fun GetImageId(eyes: Int): Int {
             if (eyes == 1) return R.drawable.mood_icon1
