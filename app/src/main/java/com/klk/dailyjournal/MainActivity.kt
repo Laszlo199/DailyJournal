@@ -197,6 +197,8 @@ class MainActivity : AppCompatActivity() {
                 i.putExtra("address", n.address)
                 i.putExtra("mood", n.mood)
                 i.putExtra("dayOfWeek", n.dayOfWeek)
+                i.putExtra("image", n.image)
+                i.putExtra("location",n.locationLatLng)
 
                 context.startActivity(i)
             }
