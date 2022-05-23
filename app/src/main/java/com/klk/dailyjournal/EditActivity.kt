@@ -40,7 +40,7 @@ class EditActivity : AppCompatActivity() {
         editBest.setText(intent.getStringExtra("best"))
         setdate.setText(intent.getStringExtra("dayOfWeek")+", "+intent.getStringExtra("date"))
         editAddress.setText(intent.getStringExtra("address"))
-        editGrateFull.setText(intent.getStringExtra("grate"))
+        editGrateFul.setText(intent.getStringExtra("grate"))
         imgMood.setImageResource(GetImageId(MoodImageStore.getImageId()))
         photo.setImageURI(uri)
 
