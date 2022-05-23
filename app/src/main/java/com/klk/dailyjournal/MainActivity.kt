@@ -175,6 +175,7 @@ class MainActivity : AppCompatActivity() {
             val addressView = resView.findViewById<TextView>(R.id.tvAddress)
             val btnReadMore = resView.findViewById<Button>(R.id.btnReadMore)
             val id = n.id
+            val imageID = MoodImageStore
 
 
             val date = n.dayOfWeek + ", " + n.date
@@ -187,6 +188,7 @@ class MainActivity : AppCompatActivity() {
 
             btnReadMore.setOnClickListener{
                 setEditId(id)
+                imageID.add(n.mood.toInt())
                 var i = Intent(context, EditActivity::class.java)
                 i.putExtra("note", n.note)
                 i.putExtra("best", n.bestPartOfDay)
@@ -194,6 +196,7 @@ class MainActivity : AppCompatActivity() {
                 i.putExtra("date", n.date)
                 i.putExtra("address", n.address)
                 i.putExtra("mood", n.mood)
+                i.putExtra("dayOfWeek", n.dayOfWeek)
 
                 context.startActivity(i)
             }

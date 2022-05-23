@@ -8,6 +8,7 @@ import android.widget.TextView
 import com.klk.dailyjournal.data.NoteEntity
 import com.klk.dailyjournal.data.NoteRepository
 import com.klk.dailyjournal.service.EditIdStore
+import com.klk.dailyjournal.service.MoodImageStore
 import kotlinx.android.synthetic.main.activity_edit.*
 
 
@@ -17,11 +18,13 @@ class EditActivity : AppCompatActivity() {
         setContentView(R.layout.activity_edit)
 
 
+
         editNote.setText(intent.getStringExtra("note"))
         editBest.setText(intent.getStringExtra("best"))
-        editDate.setText(intent.getStringExtra("date"))
+        editDate.setText(intent.getStringExtra("dayOfWeek")+","+intent.getStringExtra("date"))
         editAddress.setText(intent.getStringExtra("address"))
         editGrateFull.setText(intent.getStringExtra("grate"))
+        imgMood.setImageResource(GetImageId(MoodImageStore.getImageId()))
         updateNote()
     }
 
@@ -30,7 +33,7 @@ class EditActivity : AppCompatActivity() {
         val up = NoteRepository.get()
         val id = EditIdStore.getNoteId()
         saveNew.setOnClickListener{
-            up.update(NoteEntity(id, "",editDate.text.toString(),"4", editGrateFull.text.toString(),editBest.text.toString(),editNote.text.toString(),null,null,editAddress.text.toString()))
+            up.update(NoteEntity(id, "",editDate.text.toString(), MoodImageStore.getImageId().toString(), editGrateFull.text.toString(),editBest.text.toString(),editNote.text.toString(),null,null,editAddress.text.toString()))
             val intent = Intent(this,MainActivity::class.java)
             startActivity(intent)
         }
