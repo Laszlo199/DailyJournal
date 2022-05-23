@@ -33,8 +33,8 @@ class EditActivity : AppCompatActivity() {
         val day = intent.getStringExtra("dayOfWeek").toString()
         val image = intent.getStringExtra("image").toString()
         val location = intent.getStringExtra("location").toString()
-        val toka = intent.getStringExtra("image").toString()
-        val uri = Uri.parse(toka)
+        val imageUrl = intent.getStringExtra("image").toString()
+        val uri = Uri.parse(imageUrl)
 
         editNote.setText(intent.getStringExtra("note"))
         editBest.setText(intent.getStringExtra("best"))
