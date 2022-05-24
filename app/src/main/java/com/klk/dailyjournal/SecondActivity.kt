@@ -4,7 +4,9 @@ import android.Manifest
 import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
 import android.graphics.Color
+import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -19,12 +21,15 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.FileProvider
+import androidx.core.graphics.drawable.toBitmap
 import com.klk.dailyjournal.data.NoteEntity
 import com.klk.dailyjournal.data.NoteRepository
 import com.klk.dailyjournal.entities.Feeling
 import kotlinx.android.synthetic.main.second_activity.*
 import com.klk.dailyjournal.service.MoodImageStore
 import java.io.File
+import java.io.FileOutputStream
+import java.lang.reflect.Array
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -45,7 +50,6 @@ class SecondActivity: AppCompatActivity(){
 
 
     fun saveNote(view: View){
-
         val gratefulnessEdit = findViewById<TextView>(R.id.gratefulness_edit)
         val todayEdit = findViewById<TextView>(R.id.today_edit)
         val myNoteEdit = findViewById<TextView>(R.id.my_note_edit)
@@ -62,9 +66,11 @@ class SecondActivity: AppCompatActivity(){
             path,
             location,
             address))
-
-            //save
     }
+
+
+
+
 
     fun pickImageFromGallery(view: View){
         val intent = Intent()
@@ -168,10 +174,25 @@ class SecondActivity: AppCompatActivity(){
     ){ activityResult ->
         val mImage = findViewById<ImageView>(R.id.take_photo_img)
         if (activityResult.resultCode == RESULT_OK){
-            pathPhoto=null
-            showImageFromFile(mImage, photo!!)
+            //pathPhoto=null
+           showImageFromFile(mImage, photo!!)
+            saveToGallery(photo!!)
         }
         else handleOther(activityResult.resultCode)
+    }
+
+    private fun saveToGallery(f: File){
+        val bitmap = take_photo_img.drawable.toBitmap()
+       /* var bitmapDrawable =  imgView;
+        var bitmap = bitmapDrawable.toBitmap()*/
+
+        /* val fileDir = File(this.getExternalFilesDir(Environment.DIRECTORY_PICTURES), "Camera02")
+        var outFile = File(fileDir, photo?.path)*/
+        val outputStream = FileOutputStream(f)
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream)
+        outputStream.flush()
+        outputStream.close()
+
     }
 
 
@@ -203,6 +224,7 @@ class SecondActivity: AppCompatActivity(){
 
     private fun getOutputMediaFile(folder: String): File? {
         // in an emulated device you can see the external files in /sdcard/Android/data/<your app>.
+        //in this location pictures are stored
         val mediaStorageDir = File(this.getExternalFilesDir(Environment.DIRECTORY_PICTURES), folder)
         // Create the storage directory if it does not exist
         if (!mediaStorageDir.exists()) {
