@@ -14,7 +14,6 @@ import androidx.lifecycle.Observer
 import com.klk.dailyjournal.data.NoteEntity
 import com.klk.dailyjournal.data.NoteRepository
 import com.klk.dailyjournal.entities.Feeling
-import com.klk.dailyjournal.service.EditIdStore
 import com.klk.dailyjournal.service.MoodImageStore
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.notes_card.*
@@ -174,7 +173,6 @@ class MainActivity : AppCompatActivity() {
             val moodView = resView.findViewById<ImageView>(R.id.imgMoodIcon)
             val addressView = resView.findViewById<TextView>(R.id.tvAddress)
             val btnReadMore = resView.findViewById<Button>(R.id.btnReadMore)
-            val id = n.id
             val imageID = MoodImageStore
 
 
@@ -185,9 +183,7 @@ class MainActivity : AppCompatActivity() {
             addressView.text = n.address
 
 
-
             btnReadMore.setOnClickListener{
-                setEditId(id)
                 imageID.add(n.mood.toInt())
                 var i = Intent(context, EditActivity::class.java)
                 i.putExtra("id", n.id)
@@ -204,15 +200,7 @@ class MainActivity : AppCompatActivity() {
                 context.startActivity(i)
             }
 
-
-
-
-
             return resView
-        }
-        @RequiresApi(Build.VERSION_CODES.O)
-        fun setEditId(id: Int) {
-            EditIdStore.add(id)
         }
 
 

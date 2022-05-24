@@ -4,11 +4,8 @@ import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.EditText
-import android.widget.TextView
 import com.klk.dailyjournal.data.NoteEntity
 import com.klk.dailyjournal.data.NoteRepository
-import com.klk.dailyjournal.service.EditIdStore
 import com.klk.dailyjournal.service.MoodImageStore
 import kotlinx.android.synthetic.main.activity_edit.*
 import java.net.URI
