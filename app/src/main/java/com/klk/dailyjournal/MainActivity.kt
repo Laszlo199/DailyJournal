@@ -2,18 +2,20 @@ package com.klk.dailyjournal
 
 import android.content.Context
 import android.content.Intent
-import android.graphics.Color
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Environment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
 import com.klk.dailyjournal.data.NoteEntity
 import com.klk.dailyjournal.data.NoteRepository
-import androidx.lifecycle.Observer
 import com.klk.dailyjournal.entities.Feeling
 import com.klk.dailyjournal.service.MoodImageStore
 import kotlinx.android.synthetic.main.activity_main.*
@@ -21,12 +23,13 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
-    val feeling: Feeling = Feeling.OK;
-
+    val feeling: Feeling = Feeling.OK
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+
         setContentView(R.layout.activity_main)
         val imageButton1 = findViewById<ImageButton>(R.id.imgFace1)
         val imageButton2 = findViewById<ImageButton>(R.id.imgFace2)
@@ -51,6 +54,8 @@ class MainActivity : AppCompatActivity() {
 
         NoteRepository.initialize(this)
         //insertTestData()
+        //val repo = NoteRepository.get()
+        //repo.clear()
 
         setupDataObserver()
     }
@@ -116,6 +121,7 @@ class MainActivity : AppCompatActivity() {
             val textView = resView.findViewById<TextView>(R.id.tvNote)
             val moodView = resView.findViewById<ImageView>(R.id.imgMoodIcon)
             val addressView = resView.findViewById<TextView>(R.id.tvAddress)
+            val imageView = resView.findViewById<ImageView>(R.id.takenPhoto1)
 
             val date = n.dayOfWeek + ", " + n.date
             dateView.text = date
@@ -124,8 +130,25 @@ class MainActivity : AppCompatActivity() {
             addressView.text = n.address
 
 
+
+            if(n.image?.isNotEmpty() == true){
+                setImage(n, imageView)
+            }
+
             return resView
         }
+
+        private fun setImage(n: NoteEntity, imageView: ImageView?) {
+            val bmOptions = BitmapFactory.Options()
+            var bitmap = BitmapFactory.decodeFile(n.image?.toString(), bmOptions)
+            val ratio = bitmap.height / bitmap.width
+            val heigh = 400
+            val width = heigh/ratio
+            bitmap = Bitmap.createScaledBitmap(bitmap, width, heigh, false)
+            imageView?.setImageBitmap(bitmap)
+        }
+
+
 
         fun GetImageId(eyes: Int): Int {
             if (eyes == 1) return R.drawable.mood_icon1

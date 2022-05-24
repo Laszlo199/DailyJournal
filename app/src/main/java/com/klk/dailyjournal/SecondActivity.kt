@@ -39,6 +39,8 @@ class SecondActivity: AppCompatActivity(){
 
     var photo: File? = null
     var pathPhoto: String? = null
+
+
     var mood: Feeling?= null
     var location: String? = null
     var address: String? = null
@@ -48,13 +50,24 @@ class SecondActivity: AppCompatActivity(){
     val TAG = "xyz"
     private val TAKE_PHOTO_PERMISSION_REQUEST_CODE = 1
 
-
     fun saveNote(view: View){
         val gratefulnessEdit = findViewById<TextView>(R.id.gratefulness_edit)
         val todayEdit = findViewById<TextView>(R.id.today_edit)
         val myNoteEdit = findViewById<TextView>(R.id.my_note_edit)
 
-        val path = if (pathPhoto==null) photo?.path else pathPhoto
+       /* val path = if (pathPhoto==null) photo?.path else pathPhoto*/
+        var path: String? =null
+
+        if(pathPhoto==null && photo?.path==null)
+            path = null
+        else if(pathPhoto!=null){
+            path = "/storage/emulated/0/DCIM/camera/$pathPhoto"
+        }
+        else if(photo!=null){
+            path =  photo?.path
+        }
+            
+        
         repo.insert(NoteEntity(
             0,
             SimpleDateFormat("EEEE", Locale.ENGLISH).format(getDate()),
@@ -87,9 +100,8 @@ class SecondActivity: AppCompatActivity(){
                 val selectedImageUri: Uri? = data?.data
                 if (null != selectedImageUri) {
                     findViewById<ImageView>(R.id.take_photo_img).setImageURI(selectedImageUri)
-                    photo = null
+                    photo=null
                     pathPhoto = getPathFromURI(selectedImageUri)
-
                 }
             }
         }
@@ -174,8 +186,8 @@ class SecondActivity: AppCompatActivity(){
     ){ activityResult ->
         val mImage = findViewById<ImageView>(R.id.take_photo_img)
         if (activityResult.resultCode == RESULT_OK){
-            //pathPhoto=null
-           showImageFromFile(mImage, photo!!)
+            pathPhoto=null
+            showImageFromFile(mImage, photo!!)
             saveToGallery(photo!!)
         }
         else handleOther(activityResult.resultCode)
@@ -183,11 +195,6 @@ class SecondActivity: AppCompatActivity(){
 
     private fun saveToGallery(f: File){
         val bitmap = take_photo_img.drawable.toBitmap()
-       /* var bitmapDrawable =  imgView;
-        var bitmap = bitmapDrawable.toBitmap()*/
-
-        /* val fileDir = File(this.getExternalFilesDir(Environment.DIRECTORY_PICTURES), "Camera02")
-        var outFile = File(fileDir, photo?.path)*/
         val outputStream = FileOutputStream(f)
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream)
         outputStream.flush()

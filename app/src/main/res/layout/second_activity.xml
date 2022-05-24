@@ -138,6 +138,7 @@
                 android:layout_height="100dp"
                 android:layout_weight="1"
                 android:onClick="onTakeByFile"
+                android:background="@color/blue_light"
                 app:srcCompat="@drawable/ic_baseline_photo_camera_24" />
 
 
