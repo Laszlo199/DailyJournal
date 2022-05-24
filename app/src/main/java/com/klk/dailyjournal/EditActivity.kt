@@ -19,21 +19,26 @@ class EditActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_edit)
 
+        updateNoteAndDelete()
 
-        updateNote()
-        delete()
     }
 
 
-    fun updateNote(){
+    fun updateNoteAndDelete(){
         val up = NoteRepository.get()
-        val id = EditIdStore.getNoteId()
+        val delete = NoteRepository.get()
+        val id = intent.getIntExtra("id",-1)
         val moodID = intent.getStringExtra("mood").toString()
         val date = intent.getStringExtra("date").toString()
         val day = intent.getStringExtra("dayOfWeek").toString()
         val image = intent.getStringExtra("image").toString()
         val location = intent.getStringExtra("location").toString()
         val imageUrl = intent.getStringExtra("image").toString()
+        val best = intent.getStringExtra("best").toString()
+        val address = intent.getStringExtra("address").toString()
+        val grate = intent.getStringExtra("grate").toString()
+        val note =  intent.getStringExtra("note").toString()
+
         val uri = Uri.parse(imageUrl)
 
         editNote.setText(intent.getStringExtra("note"))
@@ -59,21 +64,6 @@ class EditActivity : AppCompatActivity() {
         }
 
 
-    }
-
-    fun delete(){
-        val delete = NoteRepository.get()
-        val id = EditIdStore.getNoteId()
-        val day = intent.getStringExtra("dayOfWeek").toString()
-        val moodID = intent.getStringExtra("mood").toString()
-        val date = intent.getStringExtra("date").toString()
-        val image = intent.getStringExtra("image").toString()
-        val location = intent.getStringExtra("location").toString()
-        val note =  intent.getStringExtra("note").toString()
-        val best = intent.getStringExtra("best").toString()
-        val address = intent.getStringExtra("address").toString()
-        val grate = intent.getStringExtra("grate").toString()
-
         deleteBtn.setOnClickListener{
             delete.delete(
                 NoteEntity(
@@ -92,6 +82,7 @@ class EditActivity : AppCompatActivity() {
             finish()
         }
     }
+
 
 
     fun GetImageId(eyes: Int): Int {

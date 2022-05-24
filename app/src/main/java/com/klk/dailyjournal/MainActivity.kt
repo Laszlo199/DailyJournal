@@ -190,6 +190,7 @@ class MainActivity : AppCompatActivity() {
                 setEditId(id)
                 imageID.add(n.mood.toInt())
                 var i = Intent(context, EditActivity::class.java)
+                i.putExtra("id", n.id)
                 i.putExtra("note", n.note)
                 i.putExtra("best", n.bestPartOfDay)
                 i.putExtra("grate", n.gratefulFor)
