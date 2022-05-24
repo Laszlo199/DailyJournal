@@ -51,13 +51,7 @@ class SecondActivity: AppCompatActivity(){
     private val TAKE_PHOTO_PERMISSION_REQUEST_CODE = 1
 
     fun saveNote(view: View){
-        val gratefulnessEdit = findViewById<TextView>(R.id.gratefulness_edit)
-        val todayEdit = findViewById<TextView>(R.id.today_edit)
-        val myNoteEdit = findViewById<TextView>(R.id.my_note_edit)
-
-       /* val path = if (pathPhoto==null) photo?.path else pathPhoto*/
         var path: String? =null
-
         if(pathPhoto==null && photo?.path==null)
             path = null
         else if(pathPhoto!=null){
@@ -66,16 +60,14 @@ class SecondActivity: AppCompatActivity(){
         else if(photo!=null){
             path =  photo?.path
         }
-            
-        
         repo.insert(NoteEntity(
             0,
             SimpleDateFormat("EEEE", Locale.ENGLISH).format(getDate()),
             "${getDayAsString()} ${getMonthName()}",
             MoodImageStore.getImageId().toString(),
-            gratefulnessEdit.text.toString(),
-            todayEdit.text.toString(),
-            myNoteEdit.text.toString(),
+            gratefulness_edit.text.toString(),
+            today_edit.text.toString(),
+            my_note_edit.text.toString(),
             path,
             location,
             address))
@@ -99,7 +91,7 @@ class SecondActivity: AppCompatActivity(){
                 val data: Intent? = result.data
                 val selectedImageUri: Uri? = data?.data
                 if (null != selectedImageUri) {
-                    findViewById<ImageView>(R.id.take_photo_img).setImageURI(selectedImageUri)
+                    take_photo_img.setImageURI(selectedImageUri)
                     photo=null
                     pathPhoto = getPathFromURI(selectedImageUri)
                 }
@@ -158,8 +150,7 @@ class SecondActivity: AppCompatActivity(){
         val dateT = findViewById<TextView>(R.id.date)
         dateT.text = date
 
-        val imageView = findViewById<ImageView>(R.id.imgMood)
-        imageView.setImageResource(GetImageId(MoodImageStore.getImageId()))
+        imgMood.setImageResource(GetImageId(MoodImageStore.getImageId()))
 
         checkPermissions()
     }
@@ -184,10 +175,9 @@ class SecondActivity: AppCompatActivity(){
     val fileCallback = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
     ){ activityResult ->
-        val mImage = findViewById<ImageView>(R.id.take_photo_img)
         if (activityResult.resultCode == RESULT_OK){
             pathPhoto=null
-            showImageFromFile(mImage, photo!!)
+            showImageFromFile(take_photo_img, photo!!)
             saveToGallery(photo!!)
         }
         else handleOther(activityResult.resultCode)
