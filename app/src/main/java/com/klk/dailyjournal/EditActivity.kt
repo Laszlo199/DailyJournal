@@ -16,14 +16,14 @@ class EditActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_edit)
 
-        updateNoteAndDelete()
+        setUpdateNoteAndDelete()
 
     }
 
 
-    fun updateNoteAndDelete(){
-        val up = NoteRepository.get()
-        val delete = NoteRepository.get()
+    fun setUpdateNoteAndDelete(){
+        val repo = NoteRepository.get()
+
         val id = intent.getIntExtra("id",-1)
         val moodID = intent.getStringExtra("mood").toString()
         val date = intent.getStringExtra("date").toString()
@@ -47,7 +47,7 @@ class EditActivity : AppCompatActivity() {
         photo.setImageURI(uri)
 
         updateBtn.setOnClickListener{
-            up.update(NoteEntity(id,
+            repo.update(NoteEntity(id,
                 day,
                 date,
                 moodID,
@@ -62,7 +62,7 @@ class EditActivity : AppCompatActivity() {
 
 
         deleteBtn.setOnClickListener{
-            delete.delete(
+            repo.delete(
                 NoteEntity(
                     id,
                     day,
