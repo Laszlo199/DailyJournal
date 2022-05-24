@@ -3,8 +3,8 @@ package com.klk.dailyjournal.data
 import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.room.Room
-import java.lang.IllegalStateException
 import java.util.concurrent.Executors
+import kotlin.IllegalStateException
 
 class NoteRepository private constructor(private val context: Context) {
 

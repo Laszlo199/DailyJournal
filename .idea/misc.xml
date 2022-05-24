@@ -3,11 +3,16 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/GitHub/4semester/DailyJournal/app/src/main/res/drawable/custom_input.xml" value="0.289" />
         <entry key="..\:/GitHub/4semester/DailyJournal/app/src/main/res/drawable/custum_input.xml" value="0.1" />
+        <entry key="..\:/GitHub/4semester/DailyJournal/app/src/main/res/drawable/ic_delete_icon.xml" value="0.1855" />
         <entry key="..\:/GitHub/4semester/DailyJournal/app/src/main/res/drawable/ic_launcher_background.xml" value="0.232" />
-        <entry key="..\:/GitHub/4semester/DailyJournal/app/src/main/res/layout/activity_main.xml" value="0.5" />
-        <entry key="..\:/GitHub/4semester/DailyJournal/app/src/main/res/layout/notes_card.xml" value="0.14375" />
+        <entry key="..\:/GitHub/4semester/DailyJournal/app/src/main/res/layout/activity_edit.xml" value="0.22" />
+        <entry key="..\:/GitHub/4semester/DailyJournal/app/src/main/res/layout/activity_main.xml" value="0.3333333333333333" />
+        <entry key="..\:/GitHub/4semester/DailyJournal/app/src/main/res/layout/activity_maps.xml" value="0.2046875" />
+        <entry key="..\:/GitHub/4semester/DailyJournal/app/src/main/res/layout/notes_card.xml" value="0.4466666666666667" />
         <entry key="..\:/GitHub/4semester/DailyJournal/app/src/main/res/layout/second_activity.xml" value="0.18931159420289856" />
+        <entry key="..\:/GitHub/4semester/DailyJournal/app/src/main/res/menu/context_menu.xml" value="0.2947916666666667" />
         <entry key="..\:/Users/Kuba/AndroidStudioProjects/DailyJournal/app/src/main/res/layout/activity_main.xml" value="0.358695652173913" />
         <entry key="..\:/Users/Kuba/AndroidStudioProjects/DailyJournal/app/src/main/res/layout/notes_card.xml" value="0.358695652173913" />
         <entry key="..\:/Users/Kuba/AndroidStudioProjects/DailyJournal/app/src/main/res/layout/second_activity.xml" value="0.358695652173913" />
