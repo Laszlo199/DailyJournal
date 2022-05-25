@@ -66,7 +66,7 @@ class SecondActivity: AppCompatActivity(){
 
     }
 
-    fun saveNote() {
+    fun saveNote(view: View) {
         var path: String? =null
         if(pathPhoto==null && photo?.path==null)
             path = null
