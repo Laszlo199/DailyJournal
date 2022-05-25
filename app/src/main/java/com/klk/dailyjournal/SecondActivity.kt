@@ -4,6 +4,7 @@ import android.Manifest
 import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
 import android.graphics.Color
 import android.net.Uri
 import android.os.Build
@@ -19,12 +20,14 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.FileProvider
+import androidx.core.graphics.drawable.toBitmap
 import com.klk.dailyjournal.data.NoteEntity
 import com.klk.dailyjournal.data.NoteRepository
 import com.klk.dailyjournal.entities.Feeling
 import kotlinx.android.synthetic.main.second_activity.*
 import com.klk.dailyjournal.service.MoodImageStore
 import java.io.File
+import java.io.FileOutputStream
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -34,6 +37,8 @@ class SecondActivity: AppCompatActivity(){
 
     var photo: File? = null
     var pathPhoto: String? = null
+
+
     var mood: Feeling?= null
     var location: String? = null
     var address: String? = null
@@ -43,30 +48,55 @@ class SecondActivity: AppCompatActivity(){
     val TAG = "xyz"
     private val TAKE_PHOTO_PERMISSION_REQUEST_CODE = 1
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.second_activity)
 
-    fun saveNote(view: View){
+        val name = intent.getStringExtra("feeling_passed")
+        mood = name?.let { getEnum(it) }
 
-        val gratefulnessEdit = findViewById<TextView>(R.id.gratefulness_edit)
-        val todayEdit = findViewById<TextView>(R.id.today_edit)
-        val myNoteEdit = findViewById<TextView>(R.id.my_note_edit)
+        val date = SimpleDateFormat("EEEE", Locale.ENGLISH).
+        format(getDate()) +", "+ getMonthName() +
+                " "+ getDayAsString()
+        val dateT = findViewById<TextView>(R.id.date)
+        dateT.text = date
 
-        val path = if (pathPhoto==null) photo?.path else pathPhoto
+        imgMood.setImageResource(GetImageId(MoodImageStore.getImageId()))
+
+
+    }
+
+    fun saveNote(view: View) {
+        var path: String? =null
+        if(pathPhoto==null && photo?.path==null)
+            path = null
+        else if(pathPhoto!=null){
+            path = "/storage/emulated/0/DCIM/camera/$pathPhoto"
+        }
+        else if(photo!=null){
+            path =  photo?.path
+        }
         repo.insert(NoteEntity(
             0,
             SimpleDateFormat("EEEE", Locale.ENGLISH).format(getDate()),
             "${getDayAsString()} ${getMonthName()}",
             MoodImageStore.getImageId().toString(),
-            gratefulnessEdit.text.toString(),
-            todayEdit.text.toString(),
-            myNoteEdit.text.toString(),
+            gratefulness_edit.text.toString(),
+            today_edit.text.toString(),
+            my_note_edit.text.toString(),
             path,
             location,
             address))
 
-            //save
+        finish()
     }
 
-    fun pickImageFromGallery(view: View){
+
+
+
+
+    fun pickImageFromGallery() {
+        checkPermissions()
         val intent = Intent()
         intent.type = "image/*"
         intent.action = Intent.ACTION_GET_CONTENT
@@ -80,10 +110,9 @@ class SecondActivity: AppCompatActivity(){
                 val data: Intent? = result.data
                 val selectedImageUri: Uri? = data?.data
                 if (null != selectedImageUri) {
-                    findViewById<ImageView>(R.id.take_photo_img).setImageURI(selectedImageUri)
-                    photo = null
+                    take_photo_img.setImageURI(selectedImageUri)
+                    photo=null
                     pathPhoto = getPathFromURI(selectedImageUri)
-
                 }
             }
         }
@@ -121,30 +150,15 @@ class SecondActivity: AppCompatActivity(){
             dayStr = day.toString() +"nd"
         else if(day.toString().endsWith('3'))
             dayStr = day.toString() +"rd"
+        else if(day in 11..19)
+            dayStr = day.toString() + "th"
         else
             dayStr = day.toString() + "th"
 
         return dayStr
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.second_activity)
 
-        val name = intent.getStringExtra("feeling_passed")
-        mood = name?.let { getEnum(it) }
-
-        val date = SimpleDateFormat("EEEE", Locale.ENGLISH).
-        format(getDate()) +", "+ getMonthName() +
-                " "+ getDayAsString()
-        val dateT = findViewById<TextView>(R.id.date)
-        dateT.text = date
-
-        val imageView = findViewById<ImageView>(R.id.imgMood)
-        imageView.setImageResource(GetImageId(MoodImageStore.getImageId()))
-
-        checkPermissions()
-    }
 
     fun GetImageId(eyes: Int): Int {
         if (eyes == 1) return R.drawable.mood_icon1
@@ -166,12 +180,21 @@ class SecondActivity: AppCompatActivity(){
     val fileCallback = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
     ){ activityResult ->
-        val mImage = findViewById<ImageView>(R.id.take_photo_img)
         if (activityResult.resultCode == RESULT_OK){
             pathPhoto=null
-            showImageFromFile(mImage, photo!!)
+            showImageFromFile(take_photo_img, photo!!)
+            saveToGallery(photo!!)
         }
         else handleOther(activityResult.resultCode)
+    }
+
+    private fun saveToGallery(f: File){
+        val bitmap = take_photo_img.drawable.toBitmap()
+        val outputStream = FileOutputStream(f)
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream)
+        outputStream.flush()
+        outputStream.close()
+
     }
 
 
@@ -182,6 +205,7 @@ class SecondActivity: AppCompatActivity(){
     }
 
     fun onTakeByFile(view: View) {
+        checkPermissions()
         photo = getOutputMediaFile("Camera02")
 
         if (photo == null) {
@@ -203,6 +227,7 @@ class SecondActivity: AppCompatActivity(){
 
     private fun getOutputMediaFile(folder: String): File? {
         // in an emulated device you can see the external files in /sdcard/Android/data/<your app>.
+        //in this location pictures are stored
         val mediaStorageDir = File(this.getExternalFilesDir(Environment.DIRECTORY_PICTURES), folder)
         // Create the storage directory if it does not exist
         if (!mediaStorageDir.exists()) {

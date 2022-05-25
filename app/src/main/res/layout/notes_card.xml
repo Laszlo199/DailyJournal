@@ -8,13 +8,15 @@
     android:padding="5dp">
 
     <LinearLayout
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintRight_toLeftOf="@+id/imgMoodIcon"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:orientation="vertical">
+        android:layout_marginTop="16dp"
+        android:orientation="vertical"
+        app:layout_constraintHorizontal_bias="0.666"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/imgMoodIcon"
+        app:layout_constraintTop_toTopOf="parent">
 
         <TextView
             android:id="@+id/tvDate"
@@ -23,41 +25,46 @@
             android:text="Monday, April 17th"
             android:textColor="@color/black"
             android:textSize="20dp"
-            android:textStyle="bold"/>
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/tvNote"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="I lost my keys. But later I had a good sandwich."
-            android:textStyle="italic"
-            android:textColor="@color/black"
-            android:textSize="15dp"
             android:layout_marginTop="5dp"
             android:ellipsize="end"
-            android:maxLines="2"/>
+            android:maxLines="2"
+            android:text="I lost my keys. But later I had a good sandwich."
+            android:textColor="@color/black"
+            android:textSize="15dp"
+            android:textStyle="italic" />
 
         <TextView
             android:id="@+id/tvAddress"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text=""
-            android:textStyle="normal"
-            android:textColor="@color/grey_darker"
-            android:textSize="12dp"
             android:layout_marginTop="5dp"
             android:ellipsize="end"
-            android:maxLines="2"/>
+            android:maxLines="2"
+            android:text=""
+            android:textColor="@color/grey_darker"
+            android:textSize="12dp"
+            android:textStyle="normal" />
+
+        <ImageView
+            android:id="@+id/takenPhoto1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"></ImageView>
 
         <Button
             android:id="@+id/btnReadMore"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             android:backgroundTint="@color/blue_light"
-            android:textColor="@color/blue_darker"
             android:text="@string/read_more"
-            android:textSize="10dp"
-            android:layout_marginTop="10dp"/>
+            android:textColor="@color/blue_darker"
+            android:textSize="10dp" />
     </LinearLayout>
 
     <ImageView

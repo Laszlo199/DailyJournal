@@ -2,9 +2,11 @@ package com.klk.dailyjournal
 
 import android.content.Context
 import android.content.Intent
-import android.graphics.Color
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.os.Build
 import android.os.Bundle
+import android.os.Environment
 import android.view.*
 import android.widget.*
 import androidx.annotation.RequiresApi
@@ -27,10 +29,11 @@ class MainActivity : AppCompatActivity() {
 
     val feeling: Feeling = Feeling.OK
 
-
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+
         setContentView(R.layout.activity_main)
 
         imgFace1.setOnClickListener {
@@ -55,7 +58,6 @@ class MainActivity : AppCompatActivity() {
         }
 
         NoteRepository.initialize(this)
-        //insertTestData()
         setupDataObserver()
 
         doneBtn.setOnClickListener { doneBtnClicked() }
@@ -172,9 +174,9 @@ class MainActivity : AppCompatActivity() {
             val textView = resView.findViewById<TextView>(R.id.tvNote)
             val moodView = resView.findViewById<ImageView>(R.id.imgMoodIcon)
             val addressView = resView.findViewById<TextView>(R.id.tvAddress)
+            val imageView = resView.findViewById<ImageView>(R.id.takenPhoto1)
             val btnReadMore = resView.findViewById<Button>(R.id.btnReadMore)
             val imageID = MoodImageStore
-
 
             val date = n.dayOfWeek + ", " + n.date
             dateView.text = date
@@ -182,6 +184,9 @@ class MainActivity : AppCompatActivity() {
             moodView.setImageResource(GetImageId(n.mood.toInt()))
             addressView.text = n.address
 
+            if(n.image?.isNotEmpty() == true){
+                setImage(n, imageView)
+            }
 
             btnReadMore.setOnClickListener{
                 imageID.add(n.mood.toInt())
@@ -201,6 +206,16 @@ class MainActivity : AppCompatActivity() {
             }
 
             return resView
+        }
+
+        private fun setImage(n: NoteEntity, imageView: ImageView?) {
+            val bmOptions = BitmapFactory.Options()
+            var bitmap = BitmapFactory.decodeFile(n.image?.toString(), bmOptions)
+            val ratio = bitmap.height / bitmap.width
+            val heigh = 400
+            val width = heigh/ratio
+            bitmap = Bitmap.createScaledBitmap(bitmap, width, heigh, false)
+            imageView?.setImageBitmap(bitmap)
         }
 
 

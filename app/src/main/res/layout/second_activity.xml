@@ -138,6 +138,7 @@
                 android:layout_height="100dp"
                 android:layout_weight="1"
                 android:onClick="onTakeByFile"
+                android:background="@color/blue_light"
                 app:srcCompat="@drawable/ic_baseline_photo_camera_24" />
 
 
@@ -149,8 +150,8 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="50dp"
             android:layout_marginTop="3dp"
-            android:text="@string/add_photo"
             android:onClick="pickImageFromGallery"
+            android:text="@string/add_photo"
             android:textSize="15sp" />
     </LinearLayout>
 
