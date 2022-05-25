@@ -6,7 +6,6 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.Color
-import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -29,7 +28,6 @@ import kotlinx.android.synthetic.main.second_activity.*
 import com.klk.dailyjournal.service.MoodImageStore
 import java.io.File
 import java.io.FileOutputStream
-import java.lang.reflect.Array
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -50,7 +48,25 @@ class SecondActivity: AppCompatActivity(){
     val TAG = "xyz"
     private val TAKE_PHOTO_PERMISSION_REQUEST_CODE = 1
 
-    fun saveNote(view: View){
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.second_activity)
+
+        val name = intent.getStringExtra("feeling_passed")
+        mood = name?.let { getEnum(it) }
+
+        val date = SimpleDateFormat("EEEE", Locale.ENGLISH).
+        format(getDate()) +", "+ getMonthName() +
+                " "+ getDayAsString()
+        val dateT = findViewById<TextView>(R.id.date)
+        dateT.text = date
+
+        imgMood.setImageResource(GetImageId(MoodImageStore.getImageId()))
+
+
+    }
+
+    fun saveNote() {
         var path: String? =null
         if(pathPhoto==null && photo?.path==null)
             path = null
@@ -71,13 +87,16 @@ class SecondActivity: AppCompatActivity(){
             path,
             location,
             address))
+
+        finish()
     }
 
 
 
 
 
-    fun pickImageFromGallery(view: View){
+    fun pickImageFromGallery() {
+        checkPermissions()
         val intent = Intent()
         intent.type = "image/*"
         intent.action = Intent.ACTION_GET_CONTENT
@@ -131,29 +150,15 @@ class SecondActivity: AppCompatActivity(){
             dayStr = day.toString() +"nd"
         else if(day.toString().endsWith('3'))
             dayStr = day.toString() +"rd"
+        else if(day in 11..19)
+            dayStr = day.toString() + "th"
         else
             dayStr = day.toString() + "th"
 
         return dayStr
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.second_activity)
 
-        val name = intent.getStringExtra("feeling_passed")
-        mood = name?.let { getEnum(it) }
-
-        val date = SimpleDateFormat("EEEE", Locale.ENGLISH).
-        format(getDate()) +", "+ getMonthName() +
-                " "+ getDayAsString()
-        val dateT = findViewById<TextView>(R.id.date)
-        dateT.text = date
-
-        imgMood.setImageResource(GetImageId(MoodImageStore.getImageId()))
-
-        checkPermissions()
-    }
 
     fun GetImageId(eyes: Int): Int {
         if (eyes == 1) return R.drawable.mood_icon1
@@ -200,6 +205,7 @@ class SecondActivity: AppCompatActivity(){
     }
 
     fun onTakeByFile(view: View) {
+        checkPermissions()
         photo = getOutputMediaFile("Camera02")
 
         if (photo == null) {
