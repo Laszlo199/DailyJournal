@@ -11,6 +11,7 @@ import android.location.LocationManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.widget.TextView
 import androidx.core.app.ActivityCompat
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
@@ -79,6 +80,11 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
         if(latLngToSave != null) {
             currentLatLng = latLngToSave
+            val address = intent.getStringExtra("address")
+            if(address != null) {
+                addressTv.text = address
+                addressToSave = address
+            }
         } else {
             val locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
             val currentLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)

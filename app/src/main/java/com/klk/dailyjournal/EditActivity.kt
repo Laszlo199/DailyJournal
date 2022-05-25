@@ -88,8 +88,10 @@ class EditActivity : AppCompatActivity() {
 
     private fun openMaps(location: String, address: String) {
         var i = Intent(this, MapsActivity::class.java)
-        i.putExtra("address", address)
-        i.putExtra("location", location.substring(10).dropLast(1))
+        if(address!=null && address!="")
+            i.putExtra("address", address)
+        if(location!=null && location!="" && location.length>11)
+            i.putExtra("location", location.substring(10).dropLast(1))
 
         resultLauncher.launch(i)
     }
