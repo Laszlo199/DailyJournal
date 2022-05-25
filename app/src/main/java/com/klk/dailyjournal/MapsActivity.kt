@@ -31,7 +31,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var fusedLocationClient: FusedLocationProviderClient
 
     var latLngToSave: LatLng? = null
-    var addressToSave: Address? = null
+    var addressToSave: String? = null
 
     companion object {
         private const val LOCATION_REQUEST_CODE = 1
@@ -102,32 +102,26 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
         if(address!=null) {
             if(address.getAddressLine(0) != null) {
-                addressTv.setText(address.getAddressLine(0))
+                addressTv.text = address.getAddressLine(0)
             }
             if(address.getAddressLine(1) != null) {
-                addressTv.setText(addressTv.getText().toString() + address.getAddressLine(1))
+                addressTv.text = addressTv.text.toString() + address.getAddressLine(1)
             }
 
-            addressToSave = address
+            addressToSave = addressTv.text.toString()
         }
     }
 
     fun saveLocation(view: View) {
-        val data = Intent()
+        val intent = Intent()
 
-        var address = ""
-        if(addressToSave!=null) {
-            if(addressToSave!!.getAddressLine(0) != null) {
-                address = addressToSave!!.getAddressLine(0)
-            }
-            if(addressToSave!!.getAddressLine(1) != null) {
-                address += addressToSave!!.getAddressLine(1)
-            }
-            data.putExtra("address", address)
-        }
-        if(latLngToSave!=null) data.putExtra("latlng", latLngToSave.toString())
+        if(addressToSave!=null)
+            intent.putExtra("address", addressToSave)
 
-        setResult(RESULT_OK, data)
+        if(latLngToSave!=null)
+            intent.putExtra("latlng", latLngToSave.toString())
+
+        setResult(RESULT_OK, intent)
         finish()
     }
 

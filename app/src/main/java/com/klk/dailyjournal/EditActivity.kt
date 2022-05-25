@@ -1,17 +1,24 @@
 package com.klk.dailyjournal
 
+import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.activity.result.contract.ActivityResultContracts
 import com.klk.dailyjournal.data.NoteEntity
 import com.klk.dailyjournal.data.NoteRepository
 import com.klk.dailyjournal.service.MoodImageStore
 import kotlinx.android.synthetic.main.activity_edit.*
+import kotlinx.android.synthetic.main.activity_edit.imgMood
+import kotlinx.android.synthetic.main.second_activity.*
 import java.net.URI
 
 
 class EditActivity : AppCompatActivity() {
+
+    lateinit var location: String
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_edit)
@@ -27,7 +34,7 @@ class EditActivity : AppCompatActivity() {
         val date = intent.getStringExtra("date").toString()
         val day = intent.getStringExtra("dayOfWeek").toString()
         val image = intent.getStringExtra("image").toString()
-        val location = intent.getStringExtra("location").toString()
+        location = intent.getStringExtra("location").toString()
         val imageUrl = intent.getStringExtra("image").toString()
         val best = intent.getStringExtra("best").toString()
         val address = intent.getStringExtra("address").toString()
@@ -84,7 +91,16 @@ class EditActivity : AppCompatActivity() {
         i.putExtra("address", address)
         i.putExtra("location", location.substring(10).dropLast(1))
 
-        startActivity(i)
+        resultLauncher.launch(i)
+    }
+
+    private var resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            location = result.data?.getStringExtra("latlng").toString()
+            val address = result.data?.getStringExtra("address")
+
+            editAddress.text = address
+        }
     }
 
     fun GetImageId(eyes: Int): Int {
