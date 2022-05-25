@@ -1,11 +1,13 @@
 package com.klk.dailyjournal
 
 import android.Manifest
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Address
 import android.location.Geocoder
 import android.location.Location
+import android.location.LocationManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -27,8 +29,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private lateinit var mMap: GoogleMap
     private lateinit var binding: ActivityMapsBinding
-    private lateinit var lastLocation: Location
-    private lateinit var fusedLocationClient: FusedLocationProviderClient
 
     var latLngToSave: LatLng? = null
     var addressToSave: String? = null
@@ -40,14 +40,19 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        val location = intent.getStringExtra("location")
+        val latlong = location?.split(",")?.toTypedArray()
+        val latitude = latlong?.get(0)?.toDouble()
+        val longitude = latlong?.get(1)?.toDouble()
+        if(latitude!=null && longitude!=null)
+            latLngToSave = LatLng(latitude, longitude)
+
         binding = ActivityMapsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         val mapFragment = supportFragmentManager
             .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
-
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
@@ -70,14 +75,20 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
             return
         }
         mMap.isMyLocationEnabled = true
-        fusedLocationClient.lastLocation.addOnSuccessListener(this) { location ->
-            if(location!=null) {
-                lastLocation = location
-                val currentLatLng = LatLng(location.latitude, location.altitude)
-                placeMarkerOnMap(currentLatLng)
-                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 12f))
-            }
-         }
+        val currentLatLng: LatLng?
+
+        if(latLngToSave != null) {
+            currentLatLng = latLngToSave
+        } else {
+            val locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
+            val currentLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)
+            currentLatLng = currentLocation?.let { LatLng(it.latitude, it.altitude) }
+        }
+
+        if (currentLatLng != null) {
+            placeMarkerOnMap(currentLatLng)
+            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 12f))
+        }
     }
 
     private fun placeMarkerOnMap(currentLatLng: LatLng) {

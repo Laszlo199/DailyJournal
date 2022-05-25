@@ -186,11 +186,13 @@ class MainActivity : AppCompatActivity() {
         private fun setImage(n: NoteEntity, imageView: ImageView?) {
             val bmOptions = BitmapFactory.Options()
             var bitmap = BitmapFactory.decodeFile(n.image?.toString(), bmOptions)
-            val ratio = bitmap.height / bitmap.width
-            val heigh = 400
-            val width = heigh/ratio
-            bitmap = Bitmap.createScaledBitmap(bitmap, width, heigh, false)
-            imageView?.setImageBitmap(bitmap)
+            if(bitmap!=null) {
+                val ratio = bitmap.height / bitmap.width
+                val heigh = 400
+                val width = heigh/ratio
+                bitmap = Bitmap.createScaledBitmap(bitmap, width, heigh, false)
+                imageView?.setImageBitmap(bitmap)
+            }
         }
 
 
