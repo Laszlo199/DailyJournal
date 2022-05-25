@@ -34,27 +34,21 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-
         setContentView(R.layout.activity_main)
 
         imgFace1.setOnClickListener {
-            MoodImageStore.add(1)
             setBorderForImg(1)
         }
         imgFace2.setOnClickListener {
-            MoodImageStore.add(2)
             setBorderForImg(2)
         }
         imgFace3.setOnClickListener {
-            MoodImageStore.add(3)
             setBorderForImg(3)
         }
         imgFace4.setOnClickListener {
-            MoodImageStore.add(4)
             setBorderForImg(4)
         }
         imgFace5.setOnClickListener {
-            MoodImageStore.add(5)
             setBorderForImg(5)
         }
 
@@ -93,40 +87,20 @@ class MainActivity : AppCompatActivity() {
         buttonsContainer.visibility = View.INVISIBLE
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     fun makeJournalNote(view: View){
 
         //pass info to the second intent
         val intent = Intent(this, SecondActivity::class.java)
         intent.putExtra("feeling_passed", feeling.name)
         startActivity(intent)
+        setBorderForImg(0)
+        buttonsContainer.visibility = View.INVISIBLE
     }
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun setBorderForImg(img: Int) {
+        MoodImageStore.add(img)
 
-    //for now we also reset the data !! (as long as we work with test data, to not add the same objects with every refresh)
-    private fun insertTestData() {
-        val repo = NoteRepository.get()
-        repo.clear()
-        repo.insert(NoteEntity(
-            0, "Monday", "April 22nd", "5",
-            "nice weather",
-            "nutella for breakfast",
-            "I met my friends today, we watch some movies, then we went to have fun. long long long long lllloooong",
-            null, null, "Skolegade 209, Esbjerg"))
-        repo.insert(NoteEntity(
-            0, "Tuesday", "April 21st", "3",
-            null,
-            null,
-            "I met my friends today, we watch some movies, then we went to have fun",
-            null, null, null))
-        repo.insert(NoteEntity(
-            0, "Wednesday", "April 20th", "2",
-            "nice weather",
-            "nutella for breakfast",
-            "wow wow",
-            null, null, null))
-    }
-
-
-    private fun setBorderForImg(img: Number) {
         buttonsContainer.visibility = View.VISIBLE
 
         val color = ContextCompat.getColor(applicationContext,

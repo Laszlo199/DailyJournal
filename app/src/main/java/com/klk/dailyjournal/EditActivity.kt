@@ -17,9 +17,7 @@ class EditActivity : AppCompatActivity() {
         setContentView(R.layout.activity_edit)
 
         setUpdateNoteAndDelete()
-
     }
-
 
     fun setUpdateNoteAndDelete(){
         val repo = NoteRepository.get()
@@ -45,6 +43,7 @@ class EditActivity : AppCompatActivity() {
         editGrateFul.setText(intent.getStringExtra("grate"))
         imgMood.setImageResource(GetImageId(MoodImageStore.getImageId()))
         photo.setImageURI(uri)
+        editAddress.setOnClickListener{ openMaps(location, address) }
 
         updateBtn.setOnClickListener{
             repo.update(NoteEntity(id,
@@ -80,7 +79,13 @@ class EditActivity : AppCompatActivity() {
         }
     }
 
+    private fun openMaps(location: String, address: String) {
+        var i = Intent(this, MapsActivity::class.java)
+        i.putExtra("address", address)
+        i.putExtra("location", location.substring(10).dropLast(1))
 
+        startActivity(i)
+    }
 
     fun GetImageId(eyes: Int): Int {
         if (eyes == 1) return R.drawable.mood_icon1
