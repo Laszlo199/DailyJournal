@@ -37,18 +37,23 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         imgFace1.setOnClickListener {
+            MoodImageStore.add(1)
             setBorderForImg(1)
         }
         imgFace2.setOnClickListener {
+            MoodImageStore.add(2)
             setBorderForImg(2)
         }
         imgFace3.setOnClickListener {
+            MoodImageStore.add(3)
             setBorderForImg(3)
         }
         imgFace4.setOnClickListener {
+            MoodImageStore.add(4)
             setBorderForImg(4)
         }
         imgFace5.setOnClickListener {
+            MoodImageStore.add(5)
             setBorderForImg(5)
         }
 
