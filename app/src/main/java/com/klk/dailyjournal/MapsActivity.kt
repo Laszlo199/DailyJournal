@@ -1,14 +1,17 @@
 package com.klk.dailyjournal
 
 import android.Manifest
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Address
 import android.location.Geocoder
 import android.location.Location
+import android.location.LocationManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.widget.TextView
 import androidx.core.app.ActivityCompat
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
@@ -27,11 +30,9 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private lateinit var mMap: GoogleMap
     private lateinit var binding: ActivityMapsBinding
-    private lateinit var lastLocation: Location
-    private lateinit var fusedLocationClient: FusedLocationProviderClient
 
     var latLngToSave: LatLng? = null
-    var addressToSave: Address? = null
+    var addressToSave: String? = null
 
     companion object {
         private const val LOCATION_REQUEST_CODE = 1
@@ -40,14 +41,19 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        val location = intent.getStringExtra("location")
+        val latlong = location?.split(",")?.toTypedArray()
+        val latitude = latlong?.get(0)?.toDouble()
+        val longitude = latlong?.get(1)?.toDouble()
+        if(latitude!=null && longitude!=null)
+            latLngToSave = LatLng(latitude, longitude)
+
         binding = ActivityMapsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         val mapFragment = supportFragmentManager
             .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
-
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
@@ -70,14 +76,25 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
             return
         }
         mMap.isMyLocationEnabled = true
-        fusedLocationClient.lastLocation.addOnSuccessListener(this) { location ->
-            if(location!=null) {
-                lastLocation = location
-                val currentLatLng = LatLng(location.latitude, location.altitude)
-                placeMarkerOnMap(currentLatLng)
-                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 12f))
+        val currentLatLng: LatLng?
+
+        if(latLngToSave != null) {
+            currentLatLng = latLngToSave
+            val address = intent.getStringExtra("address")
+            if(address != null) {
+                addressTv.text = address
+                addressToSave = address
             }
-         }
+        } else {
+            val locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
+            val currentLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)
+            currentLatLng = currentLocation?.let { LatLng(it.latitude, it.altitude) }
+        }
+
+        if (currentLatLng != null) {
+            placeMarkerOnMap(currentLatLng)
+            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 12f))
+        }
     }
 
     private fun placeMarkerOnMap(currentLatLng: LatLng) {
@@ -102,32 +119,26 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
         if(address!=null) {
             if(address.getAddressLine(0) != null) {
-                addressTv.setText(address.getAddressLine(0))
+                addressTv.text = address.getAddressLine(0)
             }
             if(address.getAddressLine(1) != null) {
-                addressTv.setText(addressTv.getText().toString() + address.getAddressLine(1))
+                addressTv.text = addressTv.text.toString() + address.getAddressLine(1)
             }
 
-            addressToSave = address
+            addressToSave = addressTv.text.toString()
         }
     }
 
     fun saveLocation(view: View) {
-        val data = Intent()
+        val intent = Intent()
 
-        var address = ""
-        if(addressToSave!=null) {
-            if(addressToSave!!.getAddressLine(0) != null) {
-                address = addressToSave!!.getAddressLine(0)
-            }
-            if(addressToSave!!.getAddressLine(1) != null) {
-                address += addressToSave!!.getAddressLine(1)
-            }
-            data.putExtra("address", address)
-        }
-        if(latLngToSave!=null) data.putExtra("latlng", latLngToSave.toString())
+        if(addressToSave!=null)
+            intent.putExtra("address", addressToSave)
 
-        setResult(RESULT_OK, data)
+        if(latLngToSave!=null)
+            intent.putExtra("latlng", latLngToSave.toString())
+
+        setResult(RESULT_OK, intent)
         finish()
     }
 
